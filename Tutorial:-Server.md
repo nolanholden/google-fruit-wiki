@@ -56,7 +56,9 @@ Now let's write two request handlers: one for URLs starting with `/foo/`:
             .bind<FooHandler, FooHandlerImpl>();
     }
 
-![Foo handler](foo_handler.png)
+<p align="center">
+    <img src="foo_handler.png">
+</p>
 
 And, as you might have expected, one for URLs starting with `/bar/`:
 
@@ -96,7 +98,9 @@ And, as you might have expected, one for URLs starting with `/bar/`:
             .bind<BarHandler, BarHandlerImpl>();
     }
 
-![Bar handler](bar_handler.png)
+<p align="center">
+    <img src="bar_handler.png">
+</p>
 
 The interfaces of the two components require a `Request` and a `ServerContext` to be bound externally. This approach is more flexible than just passing them as parameter to `handleRequest()` for two reasons: first, `FooHandler` and `BarHandler` don't need to depend on `ServerContext`. Also, this allows them to inject other classes that require `Request` and `ServerContext`, not just to inject `Request` and `ServerContext` themselves.
 
@@ -160,7 +164,9 @@ Now we need a class that dispatches the requests to the right handler:
             .install(getBarHandlerComponent());
     }
 
-![Request dispatcher](request_dispatcher.png)
+<p align="center">
+    <img src="request_dispatcher.png">
+</p>
 
 Note that `RequestDispatcherImpl` holds providers of the handlers, not instances. That's because only want to inject the handler that is actually used for the request.
 In a large system, there will be many handlers, and many will have lots of dependencies that would also have to be injected.
@@ -181,7 +187,9 @@ And now we just need the `Server` class:
 
 Note that the `run()` method of the server takes a `Component`. This is because we will use two injectors - one for the server startup (that will be used to inject the `Server` instance) and one for each request, that will be used to inject the request dispatcher.
 
-![Server](server.png)
+<p align="center">
+    <img src="server.png">
+</p>
 
     // server.cpp
     #include "server.h"
@@ -262,7 +270,9 @@ Note that the `run()` method of the server takes a `Component`. This is because 
             .bind<Server, ServerImpl>();
     }
 
-![Request injector](request_injector.png)
+<p align="center">
+    <img src="request_injector.png">
+</p>
 
 The `run()` method is a main-like method that is called at startup and will only terminate when the server is shut down.
 
@@ -288,7 +298,9 @@ Finally, we have the main() functions, that creates the outer injector and calls
 
 These are the dependencies between the source files:
 
-![Server deps](server-deps.png)
+<p align="center">
+    <img src="server-deps.png">
+</p>
 
 Note that changes to a handler (say, `bar_handler.cpp`) only require recompilation of that translation unit. When adding a handler, we need to recompile the new handler and `request_dispatcher.cpp` (that will likely need changes anyway); we still don't need to recompile the server nor the other handlers, as there's no dependency from `main.cpp` and `server.cpp` to the handlers, not even to their header files.
 

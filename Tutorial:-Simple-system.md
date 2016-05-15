@@ -49,7 +49,9 @@ Now we want a component that, given an implementation of Adder, provides an impl
             .bind<Incrementer, IncrementerImpl>();
     }
 
-![Incrementer](incrementer.png)
+<p align="center">
+    <img src="incrementer.png">
+</p>
 
 This is our first encounter with a component that has requirements. A Fruit component can have required types, and these types are specified using `fruit::Required<T1, ..., Tn>` as the first type argument of a component. If the signature of `getIncrementerImplComponent()` didn't specify the requirement, Fruit would have looked for a binding for Adder and, not finding it, would have aborted the compilation with an error. All required types that a component doesn't bind must be exposed.
 
@@ -83,7 +85,9 @@ Now, let's implement Adder.
             .bind<Adder, SimpleAdder>();
     }
 
-![Simple adder](simple_adder.png)
+<p align="center">
+    <img src="simple_adder.png">
+</p>
 
 This component is very simple, it should be self-explanatory at this point.
 
@@ -106,7 +110,9 @@ So, we have a component that provides `Adder` and one that requires `Adder` and 
             .install(getSimpleAdderComponent());
     }
 
-![Simple incrementer](simple_incrementer.png)
+<p align="center">
+    <img src="simple_incrementer.png">
+</p>
 
 `install()` is an operation that is used to "install" a sub-component inside the current component. As we've already seen in the previous page of the tutorial, note that here we are not exposing all the interfaces that we could. The Adder interface is considered an implementation detail, so we don't want to expose it. Note that it's not even included in the header file, only the .cpp file depends on it (indirectly, through `simple_adder.h`). This is an example of how Fruit helps reduce the number of includes (and therefore also the compilation time) of large projects. Without dependency injection, in order to expose an implementation of Incrementer we would have included IncrementerImpl, and the IncrementerImpl implementation would have included SimpleAdder. With Dependency injection but without Fruit, the IncrementerImpl implementation would no longer include SimpleAdder, but the client code would have to include both IncrementerImpl and SimpleAdder.
 
@@ -169,7 +175,9 @@ Our implementation code is modular (thanks to dependency injection), so we don't
     }
 
 
-![Checked adder](checked_adder.png)
+<p align="center">
+    <img src="checked_adder.png">
+</p>
 
 Nothing new here. Now we assemble the new component with the IncrementComponent that we've written before.
 
@@ -190,7 +198,9 @@ Nothing new here. Now we assemble the new component with the IncrementComponent 
             .install(getCheckedAdderComponent());
     }
 
-![Checked incrementer](checked_incrementer.png)
+<p align="center">
+    <img src="checked_incrementer.png">
+</p>
 
 Except the reuse of the same `IncrementerComponent`, there's nothing interesting to note here.
 
@@ -212,7 +222,9 @@ Except the reuse of the same `IncrementerComponent`, there's nothing interesting
             return getSimpleIncrementerComponent();
     }
 
-![Incrementer component](incrementer_component.png)
+<p align="center">
+    <img src="incrementer_component.png">
+</p>
 
 A `get*Component()` is just a function after all, so we can have parameterized components just by adding parameters and using `if` inside the function with multiple returns.
 

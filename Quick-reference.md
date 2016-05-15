@@ -21,7 +21,9 @@ The simplest way to define that a class should be injected using a constructor i
         // ...
     };
 
-![Inject macro](inject_macro.png)
+<p align="center">
+    <img src="inject_macro.png">
+</p>
 
 The constructor can then be defined inside the class definition (as in the snippet above) or just declared there and defined out of the class (for example, in a .cpp file if the class definition is in a header file). If the constructor is defined elsewhere, only the prototype in the class definition should be wrapped in `INJECT()`, the constructor definition shouldn't be.
 
@@ -34,7 +36,9 @@ Note that where constructor injection is desired, even 0-argument constructors m
         // ...
     };
 
-![Inject macro](inject_macro.png)
+<p align="center">
+    <img src="inject_macro.png">
+</p>
 
 The INJECT macro can only be used when the constructor has a simple signature. It can't be used with any of the following:
 
@@ -57,7 +61,9 @@ Note that the restriction on template is only when the constructor itself is tem
         // ...
     };
 
-![Inject macro template](inject_macro_template.png)
+<p align="center">
+    <img src="inject_macro_template.png">
+</p>
 
 The `INJECT()` macro can also be used when only some of the constructor parameters should be injected, see [assisted injection](quick-reference#factories-and-assisted-injection).
 
@@ -81,7 +87,9 @@ When the `INJECT()` macro can't be used (or as an alternative to avoid using mac
         // ...
     };
 
-![Inject typedef for Greeter](inject_typedef_greeter.png)
+<p align="center">
+    <img src="inject_typedef_greeter.png">
+</p>
 
     class StdoutWriter : public Writer {
     public:
@@ -94,7 +102,9 @@ When the `INJECT()` macro can't be used (or as an alternative to avoid using mac
         // ...
     };
 
-![Inject macro with no args](inject_macro_no_args.png)
+<p align="center">
+    <img src="inject_macro_no_args.png">
+</p>
 
 And these are two examples that couldn't be written using the `INJECT()` macro:
 
@@ -109,7 +119,9 @@ And these are two examples that couldn't be written using the `INJECT()` macro:
         // ...
     };
 
-![Inject typedef writer](inject_typedef_writer.png)
+<p align="center">
+    <img src="inject_typedef_writer.png">
+</p>
 
     class GreeterImpl : public Greeter {
     private:
@@ -133,7 +145,9 @@ And these are two examples that couldn't be written using the `INJECT()` macro:
         // ...
     };
 
-![Inject typedef greeter](inject_typedef_greeter.png)
+<p align="center">
+    <img src="inject_typedef_greeter.png">
+</p>
 
 In the last example the first templated constructor will be used, with `W`=`Writer`. The usual overloading resolution (with template parameter deduction) is performed to determine the constructor to use for injection.
 
@@ -167,11 +181,15 @@ The solution here is the `registerConstructor()` method available when construct
     }
 
 
-![Register constructor component](register_constructor_component.png)
+<p align="center">
+    <img src="register_constructor_component.png">
+</p>
 
 The `registerConstructor()` alone can be modelled as:
 
-![Register constructor](register_constructor.png)
+<p align="center">
+    <img src="register_constructor.png">
+</p>
 
 If only some of the constructor parameters should be injected, see [the section on assisted injection](quick-reference#factories-and-assisted-injection).
 
@@ -182,7 +200,9 @@ If none of the constructors does the desired initializations, see the [section o
 `bind<Interface, Impl>()` specifies that `Interface` can be injected from an object of type `Impl`. `Impl` must be a class derived from `Interface`.
 It can also bind factories, i.e. bind `std::function<std::unique_ptr<Interface>(T1,...,Tn)>` to `std::function<std::unique_ptr<Impl>(T1,...,Tn)>`, for any parameter types `T1,...,Tn`. See the section on [factories and assisted injection](quick-reference#factories-and-assisted-injection) to see how to bind `std::function<std::unique_ptr<Impl>(T1,...,Tn)>` in the first place.
 
-![Bind](bind.png)
+<p align="center">
+    <img src="bind.png">
+</p>
 
 ## Multibindings
 
@@ -237,7 +257,9 @@ The simplest way to register a class for injection is using constructor injectio
             });
     }
 
-![Provider](provider.png)
+<p align="center">
+    <img src="provider.png">
+</p>
 
 If the lambda returns a pointer, as in the example above, Fruit will **take ownership** of that pointer and will call `delete` on that object when the injector is destroyed. If you don't want Fruit to take ownership, wrap the pointer in a holder struct or tuple (but note that you'll need to change the places where that type is used) or consider binding an instance.
 
@@ -274,7 +296,9 @@ Write:
             .registerProvider([](Functor functor, Foo* foo) { return functor(foo); });
     }
 
-![Provider functor](provider_functor.png)
+<p align="center">
+    <img src="provider_functor.png">
+</p>
 
 ## Binding instances
 
@@ -292,7 +316,9 @@ Binding instances is also a way to bind values that are constant during the life
             .bindInstance(getFooInstance());
     }
 
-![Bind instance](bind_instance.png)
+<p align="center">
+    <img src="bind_instance.png">
+</p>
 
 ## Factories and assisted injection
 
@@ -315,7 +341,9 @@ Example factory binding:
                });
     }
 
-![Register factory](register_factory.png)
+<p align="center">
+    <img src="register_factory.png">
+</p>
 
 Example use of the binding from the injector:
 
@@ -332,7 +360,9 @@ Example use of the binding to inject another class:
         }
     };
 
-![Use of registerFactory](register_factory_use.png)
+<p align="center">
+    <img src="register_factory_use.png">
+</p>
 
 Note the `fruit::Assisted<>` wrapping the type `int` where `registerFactory()` is called. This allows to distinguish types that should be parameters of the factory ("assisted injection", like `int` in this example) from ones that should be injected by Fruit (normal, non-assisted injection, like `Foo` in this example).
 
@@ -352,7 +382,9 @@ In simple cases, where the lambda passed to `registerFactory()` just calls `std:
         ...
     };
 
-![Register factory macro](register_factory_macro.png)
+<p align="center">
+    <img src="register_factory_macro.png">
+</p>
 
 Note that when using `INJECT()` for assisted injection, the assisted types are wrapped with the `ASSISTED()` macro instead of `fruit::Assisted<>`.
 
@@ -393,7 +425,9 @@ For example:
                                    // T3,SomeType are required
     }
 
-![Component composition](component_composition.png)
+<p align="center">
+    <img src="component_composition.png">
+</p>
 
 When Fruit compares the provides/requires with the return type of the `getT1Component()` function, it realizes that all types declared to be provided are already provided, but the type `SomeType` is currently required even though it's not declared as required in the resulting Component. At this point Fruit looks for an `Inject` typedef in SomeType (the `INJECT()` macro is just a shorthand for an `Inject` typedef), finds it and adds the binding to the component (automatic binding). Note that in order to add the automatic binding Fruit needs to look at the class definition of `SomeType`. Instead, for other types (e.g. `T3`) Fruit doesn't require the definition, a forward declaration is enough to make the above function compile.
 
@@ -408,7 +442,9 @@ When calculating the required and provided types, Fruit also ensures that there 
             .install(getT2Component()); // Error, dependency loop.
     }
 
-![Dependency loop error](component_dep_loop.png)
+<p align="center">
+    <img src="component_dep_loop.png">
+</p>
 
 ## Injector
 
@@ -599,7 +635,9 @@ The `get*Component()` functions are just normal functions; therefore they can be
             .bind<FooInterface<T, std::vector<T>>, FooImpl<T>>();
     }
 
-![Templated component](templated_component.png)
+<p align="center">
+    <img src="templated_component.png">
+</p>
 
 And they can parametrized:
 
@@ -627,6 +665,8 @@ And they can parametrized:
         }
     }
 
-![Parameterized component](parametrized_component.png)
+<p align="center">
+    <img src="parametrized_component.png">
+</p>
 
 The last example also shows how to do conditional injection.

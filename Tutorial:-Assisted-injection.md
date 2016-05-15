@@ -27,7 +27,9 @@ To warm up, let's write a Multiplier component.
             .registerConstructor<MultiplierImpl()>();
     }
 
-![Multiplier](multiplier.png)
+<p align="center">
+    <img src="multiplier.png">
+</p>
 
 When there is a canonical implementation of an interface, as in this case, we can put the definition of the interface and the get*Component() function declaration in the same header file, saving some boilerplate.
 
@@ -75,7 +77,9 @@ Let's write the implementation now.
             .install(getMultiplierComponent());
     }
 
-![Scaler](scaler.png)
+<p align="center">
+    <img src="scaler.png">
+</p>
 
 Here we see for the first time the use of the `ASSISTED()` macro. It's used to mark types in a constructor wrapped with `INJECT()` that don't have to be injected, but will become the parameters of an injected factory function.
 
