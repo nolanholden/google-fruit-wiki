@@ -367,7 +367,8 @@ The only notable place where you should _not_ use annotated types is to annotate
     private:
         Bar* bar;
     public:
-        INJECT(ANNOTATED(MyAnnotation, FooImpl)(Bar* bar)) // Error, just omit ANNOTATED here
+        // Error, no need to use ANNOTATED here
+        INJECT(ANNOTATED(MyAnnotation, FooImpl)(Bar* bar))
             : bar(bar) {
         }
     };
@@ -383,7 +384,9 @@ Another thing to note when using annotated injection is that if you bind an impl
     
     struct First {};
     struct Second {};
-    Component<fruit::Annotated<First, Foo>, fruit::Annotated<Second, Foo>> getFooComponent() {
+    Component<fruit::Annotated<First, Foo>, fruit::Annotated<Second, Foo>>
+        getFooComponent() {
+        
         return fruit::createComponent()
             .bind<fruit::Annotated<First, Foo>, FooImpl>()
             .bind<fruit::Annotated<Second, Foo>, FooImpl>(); // Allowed, but misleading!
@@ -398,7 +401,9 @@ That's because there is only one instance of every type in an injector (unless t
     
     struct First {};
     struct Second {};
-    Component<fruit::Annotated<First, Foo>, fruit::Annotated<Second, Foo>> getFooComponent() {
+    Component<fruit::Annotated<First, Foo>, fruit::Annotated<Second, Foo>>
+        getFooComponent() {
+        
         return fruit::createComponent()
             .bind<fruit::Annotated<First, Foo>, fruit::Annotated<First, FooImpl>>()
             .bind<fruit::Annotated<Second, Foo>, fruit::Annotated<Second, FooImpl>>();
