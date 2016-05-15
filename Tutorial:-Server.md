@@ -31,7 +31,10 @@ Now let's write two request handlers: one for URLs starting with `/foo/`:
         virtual void handleRequest() = 0;
     };
     
-    fruit::Component<fruit::Required<Request, ServerContext>, FooHandler> getFooHandlerComponent();
+    fruit::Component<fruit::Required<Request, ServerContext>, FooHandler>
+        getFooHandlerComponent();
+
+<br />
 
     // foo_handler.cpp
     #include "foo_handler.h"
@@ -47,7 +50,8 @@ Now let's write two request handlers: one for URLs starting with `/foo/`:
         }
     
         void handleRequest() override {
-            cout << "FooHandler handling request on server started at " << serverContext.startupTime << " for path: " << request.path << endl;
+            cout << "FooHandler handling request on server started at "
+                 << serverContext.startupTime << " for path: " << request.path << endl;
         }
     };
     
@@ -73,7 +77,10 @@ And, as you might have expected, one for URLs starting with `/bar/`:
         virtual void handleRequest() = 0;
     };
     
-    fruit::Component<fruit::Required<Request, ServerContext>, BarHandler> getBarHandlerComponent();
+    fruit::Component<fruit::Required<Request, ServerContext>, BarHandler>
+        getBarHandlerComponent();
+
+<br />
 
     // bar_handler.cpp
     #include "bar_handler.h"
@@ -89,7 +96,8 @@ And, as you might have expected, one for URLs starting with `/bar/`:
         }
     
         void handleRequest() override {
-            cout << "BarHandler handling request on server started at " << serverContext.startupTime << " for path: " << request.path << endl;
+            cout << "BarHandler handling request on server started at "
+                 << serverContext.startupTime << " for path: " << request.path << endl;
         }
     };
     
@@ -117,8 +125,11 @@ Now we need a class that dispatches the requests to the right handler:
         virtual void handleRequest() = 0;
     };
     
-    fruit::Component<fruit::Required<Request, ServerContext>, RequestDispatcher> getRequestDispatcherComponent();
+    fruit::Component<fruit::Required<Request, ServerContext>, RequestDispatcher>
+        getRequestDispatcherComponent();
 
+<br />
+  
     // request_dispatcher.cpp
     #include "request_dispatcher.h"
     
@@ -147,7 +158,8 @@ Now we need a class that dispatches the requests to the right handler:
             } else if (stringStartsWith(request.path, "/bar/")) {
                 barHandler.get()->handleRequest();
             } else {
-                cerr << "Error: no handler found for request path: '" << request.path << "' , ignoring request." << endl;
+                cerr << "Error: no handler found for request path: '"
+                     << request.path << "' , ignoring request." << endl;
             }
         }
     
@@ -157,7 +169,9 @@ Now we need a class that dispatches the requests to the right handler:
         } 
     };
     
-    Component<Required<Request, ServerContext>, RequestDispatcher> getRequestDispatcherComponent() {
+    Component<Required<Request, ServerContext>, RequestDispatcher>
+        getRequestDispatcherComponent() {
+        
         return createComponent()
             .bind<RequestDispatcher, RequestDispatcherImpl>()
             .install(getFooHandlerComponent())
@@ -180,7 +194,9 @@ And now we just need the `Server` class:
     
     class Server {
     public:
-        virtual void run(fruit::Component<fruit::Required<Request, ServerContext>, RequestDispatcher> requestDispatcherComponent) = 0;
+        virtual void run(fruit::Component<fruit::Required<Request, ServerContext>,
+                                          RequestDispatcher>
+                                              requestDispatcherComponent) = 0;
     };
     
     fruit::Component<Server> getServerComponent();
@@ -211,20 +227,23 @@ Note that the `run()` method of the server takes a `Component`. This is because 
             }
         }
     
-        void run(Component<Required<Request, ServerContext>, RequestDispatcher> requestDispatcherComponent) override {
+        void run(Component<Required<Request, ServerContext>,
+                           RequestDispatcher> requestDispatcherComponent) override {
             ServerContext serverContext;
             serverContext.startupTime = getTime();
     
-            const NormalizedComponent<Required<Request>, RequestDispatcher> requestDispatcherNormalizedComponent(
-                createComponent()
-                    .install(std::move(requestDispatcherComponent))
-                    .bindInstance(serverContext));
+            const NormalizedComponent<Required<Request>, RequestDispatcher>
+                requestDispatcherNormalizedComponent(
+                    createComponent()
+                        .install(std::move(requestDispatcherComponent))
+                        .bindInstance(serverContext));
     
             cerr << "Server started." << endl;
             
             while (1) {
                 cerr << endl;
-                cerr << "Enter the request (absolute path starting with "/foo/" or "/bar/"), or an empty line to exit." << endl;
+                cerr << "Enter the request (absolute path starting with \"/foo/\" or "
+                     << "\"/bar/\"), or an empty line to exit." << endl;
                 Request request;
                 getline(cin, request.path);
                 cerr << "Server received request: " + request.path << endl;
@@ -233,7 +252,9 @@ Note that the `run()` method of the server takes a `Component`. This is because 
                     break;
                 }
                 
-                threads.push_back(std::thread(worker_thread_main, std::ref(requestDispatcherNormalizedComponent), request));
+                threads.push_back(std::thread(
+                    worker_thread_main, 
+                    std::ref(requestDispatcherNormalizedComponent), request));
             }
         }
    
@@ -243,7 +264,8 @@ Note that the `run()` method of the server takes a `Component`. This is because 
             RequestDispatcher>& requestDispatcherNormalizedComponent,
             Request request) {
     
-            Injector<RequestDispatcher> injector(requestDispatcherNormalizedComponent, getRequestComponent(request));
+            Injector<RequestDispatcher> injector(
+                requestDispatcherNormalizedComponent, getRequestComponent(request));
     
             RequestDispatcher* requestDispatcher(injector);
             requestDispatcher->handleRequest();
