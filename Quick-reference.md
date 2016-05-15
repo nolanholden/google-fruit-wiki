@@ -1,5 +1,3 @@
-**This page was written for Fruit 1.x. It still needs to be reviewed/updated for Fruit 2.0.x.**
-
 
 This page is a quick reference for Fruit features, and intended for people that already know the basics of Fruit. If you're just starting to learn Fruit, read the [tutorial](https://github.com/google/fruit/wiki/tutorial:-getting-started) first.
 
@@ -319,6 +317,94 @@ Binding instances is also a way to bind values that are constant during the life
 <p align="center">
     <img src="bind_instance.png">
 </p>
+
+## Annotated injection
+
+There are cases when several implementation types might have the same "natural interface" they implement, except that only one of these types can be bound to it within a single injector. Annotated injection allows to have multiple bindings for the same type and to specify which binding is desired at each point of use. See the [tutorial page](https://github.com/google/fruit/wiki/tutorial:-annotated-injection) for a complete example.
+
+To bind a type using annotated injection, use `fruit::Annotated<MarkerType, T>` instead of `T`, where `MarkerType` is any type you want to use to mark this binding for `T` (typically `MarkerType` is defined as an empty struct, for simplicity).
+
+Example binding:
+
+    class MainBrakeImpl : public Brake {
+    public:
+        INJECT(MainBrakeImpl()) = default;
+      
+        // ...
+    };
+    
+    fruit::Component<fruit::Annotated<MainBrake, Brake>> getMainBrakeComponent() {
+        return fruit::createComponent()
+            .bind<fruit::Annotated<MainBrake, Brake>, MainBrakeImpl>();
+    }
+
+Example use:
+
+    class CarImpl : public Car {
+    private:
+        Brake* mainBrake;
+      
+    public:
+        INJECT(CarImpl(ANNOTATED(MainBrake, Brake*) mainBrake)
+            : mainBrake(mainBrake) {
+        }
+        // Or:
+        using Inject = CarImpl(fruit::Annotated<MainBrake, Brake*>);
+        CarImpl(Brake* mainBrake)
+            : mainBrake(mainBrake) {
+        }
+      
+        // ...
+    };
+
+Note that the `ANNOTATED` macro is only meant to be used within `INJECT`. Everywhere else you should write `fruit::Assisted<>` instead, both to define bindings that use annotated injection and to use them.
+
+Fruit supports annotated types instead of plain types everywhere it would make sense to use them (e.g. you can use `ASSISTED` and `ANNOTATED` parameters in the same constructor, you can use an annotated type in `bindInstance`).
+
+The only notable place where you should _not_ use annotated types is to annotate the class type in a constructor:
+
+    class FooImpl : public Foo {
+    private:
+        Bar* bar;
+    public:
+        INJECT(ANNOTATED(MyAnnotation, FooImpl)(Bar* bar)) // Error, just omit ANNOTATED here
+            : bar(bar) {
+        }
+    };
+
+When auto-injecting a class, Fruit already knows the correct annotation, so providing the annotation here would be redundant.
+
+Another thing to note when using annotated injection is that if you bind an implementation class to an interface using 2 different annotations there will be only _one_ instance of the implementation class:
+
+    class FooImpl : public Foo {
+    public:
+        INJECT(Foo()) = default;
+    };
+    
+    struct First {};
+    struct Second {};
+    Component<fruit::Annotated<First, Foo>, fruit::Annotated<Second, Foo>> getFooComponent() {
+        return fruit::createComponent()
+            .bind<fruit::Annotated<First, Foo>, FooImpl>()
+            .bind<fruit::Annotated<Second, Foo>, FooImpl>(); // Allowed, but misleading!
+    }
+
+That's because there is only one instance of every type in an injector (unless that type is annotated with multiple annotations, but `FruitImpl` isn't). This is probably not what you want. In this case, you should also annotate the two implementation classes, so that the injector will contain a different instance for each annotation:
+
+    class FooImpl : public Foo {
+    public:
+        INJECT(Foo()) = default;
+    };
+    
+    struct First {};
+    struct Second {};
+    Component<fruit::Annotated<First, Foo>, fruit::Annotated<Second, Foo>> getFooComponent() {
+        return fruit::createComponent()
+            .bind<fruit::Annotated<First, Foo>, fruit::Annotated<First, FooImpl>>()
+            .bind<fruit::Annotated<Second, Foo>, fruit::Annotated<Second, FooImpl>>();
+    }
+
+Note that we did not change the definition of `FooImpl`, we only need to specify the annotation in the `bind()` calls. Fruit will then auto-inject `fruit::Annotated<First, FooImpl>` and `fruit::Annotated<Second, FooImpl>`, both using `FruitImpl`'s constructor.
 
 ## Factories and assisted injection
 
