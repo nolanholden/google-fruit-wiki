@@ -41,7 +41,7 @@ Look at the [examples/](https://github.com/google/fruit/tree/master/examples) di
 #### Rejected features
 
 *   Compile-time detection of multiple inconsistent bindings. This feature has been rejected because it would interfere with some of the features above that are considered more important (conditional injection, binary compatibility, few includes).
-*   Injection scopes, e.g. binding a type/value only for the duration of a request. This feature was implemented and then removed, replaced by the use of `NormalizedComponent`. If you need to create many injectors that have most of the bindings in common, `NormalizedComponent` allows to save most of work involved in the injector creation (but there will still be separate injectors). See [examples/server](https://github.com/google/fruit/tree/master/examples/server) for an example server implementation that uses `NormalizedComponent` with per-request injectors.
+*   Injection scopes, e.g. binding a type/value only for the duration of a request. This feature was implemented and then removed, replaced by the use of `NormalizedComponent`. If you need to create many injectors that have most of the bindings in common, `NormalizedComponent` allows to save most of work involved in the injector creation (but there will still be separate injectors). See [[the server page in the tutorial|tutorial-server]] for an example use of `NormalizedComponent` with per-request injectors.
 
 Do you have a feature in mind that's not in the above list? Drop me an email ([poletti.marco@gmail.com](mailto:poletti.marco@gmail.com)), I'm interested to hear your idea and I'll implement it if feasible.
 
