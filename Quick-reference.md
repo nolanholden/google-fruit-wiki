@@ -1,3 +1,5 @@
+**This page was written for Fruit 1.x. It still needs to be reviewed/updated for Fruit 2.0.x.**
+
 
 This page is a quick reference for Fruit features, and intended for people that already know the basics of Fruit. If you're just starting to learn Fruit, read the [tutorial](tutorial-getting-started) first.
 
