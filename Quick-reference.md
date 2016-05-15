@@ -1,4 +1,3 @@
-### Quick reference
 
 This page is a quick reference for Fruit features, and intended for people that already know the basics of Fruit. If you're just starting to learn Fruit, read the [tutorial](tutorial-getting-started) first.
 
