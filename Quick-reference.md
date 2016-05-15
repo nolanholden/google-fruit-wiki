@@ -397,6 +397,7 @@ Note that when using `INJECT()` for assisted injection, the assisted types are w
     };
 
 Instead, if an `Inject` typedef is used, the types that require assisted injection should be wrapped in `fruit::Assisted<>` (as in the original `registerFactory()` call) instead of `ASSISTED()`.
+
 In both cases, the constructor definition (in case the constructor is defined outside the class definition) does **not** need to wrap the types in any way; this is obvious when using the `Inject` typedef, but less obvious when using the `ASSISTED()` macro.
 
 The `INJECT()` macro (and the equivalent Inject typedef) can also be used for factories in the special case when there are `0` assisted arguments; in this case they will bind a type of the form `std::function<std::unique_ptr<MyClass>()>` consistently with the cases with >0 assisted arguments.
@@ -404,9 +405,11 @@ The `INJECT()` macro (and the equivalent Inject typedef) can also be used for fa
 ## Type of a component, components with requirements and automatic bindings
 
 When using Fruit, every component has a type that declares what type bindings the component exposes and which ones (if any) the component requires.
+
 For example, if a component has type `fruit::Component<fruit::Required<T1, T2, T3>, U1, U2>`, that component exposes the types `U1` and `U2` but requires bindings for `T1`, `T2` and `T3`. In the common case where a component has no requirements, the `fruit::Required<...>` part can be omitted, so we would have just `fruit::Component<U1, U2>` in this case.
 
 When combining components, requirements can be satisfied with a matching binding, or by installing a component that provides those types.
+
 For example:
 
     fruit::Component<fruit::Required<T1, T2, T3>, U1, U2> getU1U2Component();
@@ -465,6 +468,7 @@ For each type `T` exposed by the injector, the following `get<>` calls are allow
 See the [section on lazy injection](quick-reference#lazy-injection) to see what `fruit::Provider<T>` is; the other types should be clear.
 
 Note that we don't mention any `std::function` here. This is because the injector treats `std::function` as any other type.
+
 If `T` is `std::function<std::unique_ptr<X>(T1,...Tn)>` the above get calls are allowed as for any other `T`. Note that those are allowed for the `std::function` type, but not for `X` itself.
 
 For convenience, the injector also has a conversion operator to all types that can be retrieved from it using `get<>`. For example, this get call:

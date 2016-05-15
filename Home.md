@@ -6,7 +6,6 @@ It allows to split the implementation code in "components" (aka modules) that ca
 
 From a component with no requirements it's then possible to create an injector, that can create instances of the classes registered in the component.
 
-
 The code is on github at [github.com/google/fruit](https://github.com/google/fruit) and [prebuilt packages](https://github.com/google/fruit/wiki/install#prebuilt-packages) are available.
 
 ## Features
