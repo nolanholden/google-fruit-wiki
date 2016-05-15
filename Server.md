@@ -296,6 +296,8 @@ This concludes the tutorial. Now you should be able to use Fruit effectively.
 
 For more details on each feature of Fruit, see the [Quick reference](documentation) or the [FAQ](faq). If something is still unclear, don't hesitate to [send me an email](mailto:poletti.marco@gmail.com).
 
-<p style="text-align:center">
+<p align="center">
     <img src="http://i.imgur.com/ivPsCbg.jpg" />
 </p>
+
+
