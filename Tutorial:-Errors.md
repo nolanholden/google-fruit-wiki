@@ -67,4 +67,4 @@ Then the file will compile.
 
 This is how Fruit reports missing bindings, one of the most common injection errors.
 
-In the [next part of the tutorial](assisted-injection) we'll learn how to use assisted injection.
+In the [next part of the tutorial](tutorial:-assisted-injection) we'll learn how to use assisted injection.
