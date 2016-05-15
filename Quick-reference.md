@@ -1,7 +1,7 @@
 **This page was written for Fruit 1.x. It still needs to be reviewed/updated for Fruit 2.0.x.**
 
 
-This page is a quick reference for Fruit features, and intended for people that already know the basics of Fruit. If you're just starting to learn Fruit, read the [tutorial](tutorial-getting-started) first.
+This page is a quick reference for Fruit features, and intended for people that already know the basics of Fruit. If you're just starting to learn Fruit, read the [tutorial](getting-started) first.
 
 ## Constructor injection
 
@@ -59,7 +59,7 @@ Note that the restriction on template is only when the constructor itself is tem
 
 ![Inject macro template](https://sites.google.com/site/fruitlib/_/rsrc/1424515865392/documentation/inject_macro_template.png)
 
-The `INJECT()` macro can also be used when only some of the constructor parameters should be injected, see [assisted injection](documentation#factories-and-assisted-injection).
+The `INJECT()` macro can also be used when only some of the constructor parameters should be injected, see [assisted injection](quick-reference#factories-and-assisted-injection).
 
 #### Inject typedef
 
@@ -137,7 +137,7 @@ And these are two examples that couldn't be written using the `INJECT()` macro:
 
 In the last example the first templated constructor will be used, with `W`=`Writer`. The usual overloading resolution (with template parameter deduction) is performed to determine the constructor to use for injection.
 
-The `Inject` typedef can also be used when only some of the constructor parameters should be injected, [see assisted injection](documentation#factories-and-assisted-injection).
+The `Inject` typedef can also be used when only some of the constructor parameters should be injected, [see assisted injection](quick-reference#factories-and-assisted-injection).
 
 #### registerConstructor()
 
@@ -173,14 +173,14 @@ The `registerConstructor()` alone can be modelled as:
 
 ![Register constructor](https://sites.google.com/site/fruitlib/_/rsrc/1424515886753/documentation/register_constructor.png)
 
-If only some of the constructor parameters should be injected, see [the section on assisted injection](documentation#factories-and-assisted-injection).
+If only some of the constructor parameters should be injected, see [the section on assisted injection](quick-reference#factories-and-assisted-injection).
 
-If none of the constructors does the desired initializations, see the [section on providers](documentation#providers) to see how to bind a lambda function instead.
+If none of the constructors does the desired initializations, see the [section on providers](quick-reference#providers) to see how to bind a lambda function instead.
 
 ## Bindings
 
 `bind<Interface, Impl>()` specifies that `Interface` can be injected from an object of type `Impl`. `Impl` must be a class derived from `Interface`.
-It can also bind factories, i.e. bind `std::function<std::unique_ptr<Interface>(T1,...,Tn)>` to `std::function<std::unique_ptr<Impl>(T1,...,Tn)>`, for any parameter types `T1,...,Tn`. See the section on [factories and assisted injection](documentation#factories-and-assisted-injection) to see how to bind `std::function<std::unique_ptr<Impl>(T1,...,Tn)>` in the first place.
+It can also bind factories, i.e. bind `std::function<std::unique_ptr<Interface>(T1,...,Tn)>` to `std::function<std::unique_ptr<Impl>(T1,...,Tn)>`, for any parameter types `T1,...,Tn`. See the section on [factories and assisted injection](quick-reference#factories-and-assisted-injection) to see how to bind `std::function<std::unique_ptr<Impl>(T1,...,Tn)>` in the first place.
 
 ![Bind](https://sites.google.com/site/fruitlib/_/rsrc/1424515851923/documentation/bind.png)
 
@@ -188,7 +188,7 @@ It can also bind factories, i.e. bind `std::function<std::unique_ptr<Interface>(
 
 Multibindings are a feature of Fruit (inspired by Guice) that allows to bind the same type multiple times, in different ways. They can be used to bind plugins, listeners, etc.
 
-Also, since there are no constraints to the number of bindings (even 0 is allowed), they can be used for optional injection: «if T is bound, then get an instance of T and ...», however in this case T must be bound as a multibinding and not as a normal binding. See [lazy injection](documentation#lazy-injection) instead if you want something like «if (...) then inject T» with T always bound but expensive to inject.
+Also, since there are no constraints to the number of bindings (even 0 is allowed), they can be used for optional injection: «if T is bound, then get an instance of T and ...», however in this case T must be bound as a multibinding and not as a normal binding. See [lazy injection](quick-reference#lazy-injection) instead if you want something like «if (...) then inject T» with T always bound but expensive to inject.
 
 The multibindings for a given type are completely separate from the normal bindings; in most cases a type will have either multibindings or bindings, but not both.
 
@@ -215,7 +215,7 @@ Note that here we specify all multibindings in a single Component, but this is n
 
 ## Providers
 
-This section is about registering providers. For `fruit::Provider<T>`, see the section on [lazy injection](documentation#lazy-injection).
+This section is about registering providers. For `fruit::Provider<T>`, see the section on [lazy injection](quick-reference#lazy-injection).
 
 The simplest way to register a class for injection is using constructor injection. However, sometimes there is no constructor that does the desired initialization, and it's not possible to add one (e.g for third-party classes) or it's not reasonable to add one in that class (e.g. for value types, or if the constructor would have to do a too-complex task). In these cases, Fruit allows to construct the object using an arbitrary lambda function.
 
@@ -279,7 +279,7 @@ Write:
 
 In most cases, it's easier and less bug-prone to let Fruit manage the lifetime of injected objects. However, in some cases it's necessary to give Fruit access to some object external to the injector, and for which Fruit has no ownership.
 
-Binding instances is also a way to bind values that are constant during the lifetime of the injector, but vary between injectors; see the section on [normalized components](documentation#normalized-components).
+Binding instances is also a way to bind values that are constant during the lifetime of the injector, but vary between injectors; see the section on [normalized components](quick-reference#normalized-components).
 
     Foo& getFooInstance() {
         static Foo foo = createFoo();
@@ -341,7 +341,7 @@ If memoization is desired, it can be performed in the lambda passed to `register
 
 Also, for factories, Fruit does **not** take ownership of the values created by the factory. So it's preferable to return a `std::unique_ptr` in the lambda instead of a plain pointer to give ownership of the object to the caller of the factory.
 
-It's possible to bind factories using `bind<>`, see the [section on bind](documentation#bindings) for more info.
+It's possible to bind factories using `bind<>`, see the [section on bind](quick-reference#bindings) for more info.
 
 In simple cases, where the lambda passed to `registerFactory()` just calls `std::unique_ptr<MyClass>(new MyClass(...))` (as in the example above) the `INJECT()` macro or an `Inject` typedef can be used in the created class itself, instead of writing the `registerFactory()` call explicitly in the component definition.
 
@@ -412,7 +412,7 @@ When calculating the required and provided types, Fruit also ensures that there 
 
 A Fruit injector is an object of type `fruit::Injector<T1,...,Tn>`. Unlike components, injectors can't have requirements. The types `T1,...Tn` are the types exposed by the injector, i.e. the types that can be used in calls to `get<>`. Even though the injector most likely contains bindings for other types, only the types explicitly declared in the injector type can be directly obtained by the injector itself. Other types will be injected as needed using the bindings in the injector, but behind the scenes.
 
-Multibindings behave differently, see the [section on multibindings](documentation#multibindings) for more information.
+Multibindings behave differently, see the [section on multibindings](quick-reference#multibindings) for more information.
 
 For each type `T` exposed by the injector, the following `get<>` calls are allowed:
 
@@ -424,7 +424,7 @@ For each type `T` exposed by the injector, the following `get<>` calls are allow
 *   `injector.get<std::shared_ptr<T>>()`
 *   `injector.get<fruit::Provider<T>>()`
 
-See the [section on lazy injection](documentation#lazy-injection) to see what `fruit::Provider<T>` is; the other types should be clear.
+See the [section on lazy injection](quick-reference#lazy-injection) to see what `fruit::Provider<T>` is; the other types should be clear.
 
 Note that we don't mention any `std::function` here. This is because the injector treats `std::function` as any other type.
 If `T` is `std::function<std::unique_ptr<X>(T1,...Tn)>` the above get calls are allowed as for any other `T`. Note that those are allowed for the `std::function` type, but not for `X` itself.
@@ -458,7 +458,7 @@ Normalized components are a feature of Fruit that allows to pre-compute a compon
 
 Constructing an injector from a NormalizedComponent is much faster than constructing it from a Component, because most of the processing (aka normalization) has been done in advance when the Component object was converted to NormalizedComponent. It's also possible to specify some additional bindings at the point where the injector is created; however, this should be limited to very few bindings (<5 is best, <10 is still ok). If too many of these bindings are added, the injector construction can become even slower than it would have been without using the normalized component.
 
-Normalized components are best suited if the vast majority of the bindings are common. A typical use case is in a server, where a separate injector is created for every request, but the bindings of the handler classes are common to all requests; in that case a normalized component can be used, and the request itself (and possibly some metadata about the request) can be added to each injector at the point of construction. See the [section on injection scopes](documentation#injection-scopes) for a more detailed example.
+Normalized components are best suited if the vast majority of the bindings are common. A typical use case is in a server, where a separate injector is created for every request, but the bindings of the handler classes are common to all requests; in that case a normalized component can be used, and the request itself (and possibly some metadata about the request) can be added to each injector at the point of construction. See the [section on injection scopes](quick-reference#injection-scopes) for a more detailed example.
 
 ## Injection scopes
 
@@ -531,7 +531,7 @@ Then the code that creates the injectors can be written as:
 
 The instance of `X` is owned by `outerScopeInjector` so lives for a full iteration of the outer loop. The instance of `Y` is owned by `middleScopeInjector` so lives for an iteration of the middle loop. Finally, the instance of `Z` is owned by `innerScopeInjector` so only lives for an iteration of the inner loop.
 
-See the [section on normalized components](documentation#normalized-components) and the [section on bindInstance](documentation#binding-instances) if the code above is not clear.
+See the [section on normalized components](quick-reference#normalized-components) and the [section on bindInstance](quick-reference#binding-instances) if the code above is not clear.
 
 ## Eager injection
 
