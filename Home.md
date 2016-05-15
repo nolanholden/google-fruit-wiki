@@ -7,18 +7,18 @@ It allows to split the implementation code in "components" (aka modules) that ca
 From a component with no requirements it's then possible to create an injector, that can create instances of the classes registered in the component.
 
 
-The code is on github at [github.com/google/fruit](https://github.com/google/fruit) and [prebuilt packages](https://github.com/google/fruit/wiki/installation#prebuilt-packages) are available.
+The code is on github at [github.com/google/fruit](https://github.com/google/fruit) and [prebuilt packages](https://github.com/google/fruit/wiki/install#prebuilt-packages) are available.
 
 ## Features
 
 *   Basic features:
-    *   Binding of a type to an interface, [details here](documentation#bindings)
-    *   Inject annotations for constructors, [details here](documentation#inject-macro)
-    *   Binding to a provider (lambda), [details here](documentation#providers)
-    *   Binding to an instance/value, [details here](documentation#binding-instances)
+    *   Binding of a type to an interface, [details here](quick-reference#bindings)
+    *   Inject annotations for constructors, [details here](quick-reference#inject-macro)
+    *   Binding to a provider (lambda), [details here](quick-reference#providers)
+    *   Binding to an instance/value, [details here](quick-reference#binding-instances)
     *   Annotated bindings
-    *   Assisted injection, [details here](documentation#factories-and-assisted-injection)
-    *   Automatic registration of factories for a type I if there is a factory for C and I is bound to C, [details here](documentation#bindings)
+    *   Assisted injection, [details here](quick-reference#factories-and-assisted-injection)
+    *   Automatic registration of factories for a type I if there is a factory for C and I is bound to C, [details here](quick-reference#bindings)
 *   Unlike most DI frameworks, most checks are done at **compile time**, so that errors can be caught early. Some examples of checks done at compile time:
     *   Checking that all required types are bound (implicitly or explicitly)
     *   Checking that there are no dependency loops in the bound types.
@@ -34,14 +34,14 @@ The code is on github at [github.com/google/fruit](https://github.com/google/fru
 *   Optional eager injection: after calling a specific method on the injector, multiple threads can use the same injector concurrently with no locking.
 *   Multi-bindings: unlike the typical binding when in an injector there's a single binding for each type, multi-bindings allow components to specify several bindings and the collection of bound instances can be retrieved from the injector. This can be useful for e.g. plugin loading/hooks, or to register request handlers in a server.
 
-Eager to get started? Jump to the [Getting started page](tutorial-getting-started)
+Eager to get started? Jump to the [Getting started page](getting-started)
 
 Look at the [examples/](https://github.com/google/fruit/tree/master/examples) directory in the source tree for example code, or see the [FAQ page](faq) for more information.
 
 #### Rejected features
 
 *   Compile-time detection of multiple inconsistent bindings. This feature has been rejected because it would interfere with some of the features above that are considered more important (conditional injection, binary compatibility, few includes).
-*   Injection scopes, e.g. binding a type/value only for the duration of a request. This feature was implemented and then removed, replaced by the use of `NormalizedComponent`. If you need to create many injectors that have most of the bindings in common, `NormalizedComponent` allows to save most of work involved in the injector creation (but there will still be separate injectors). See [the server page in the tutorial](tutorial-server) for an example use of `NormalizedComponent` with per-request injectors.
+*   Injection scopes, e.g. binding a type/value only for the duration of a request. This feature was implemented and then removed, replaced by the use of `NormalizedComponent`. If you need to create many injectors that have most of the bindings in common, `NormalizedComponent` allows to save most of work involved in the injector creation (but there will still be separate injectors). See [the server page in the tutorial](server) for an example use of `NormalizedComponent` with per-request injectors.
 
 Do you have a feature in mind that's not in the above list? Drop me an email ([poletti.marco@gmail.com](mailto:poletti.marco@gmail.com)), I'm interested to hear your idea and I'll implement it if feasible.
 
