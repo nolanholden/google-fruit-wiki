@@ -10,6 +10,8 @@ To warm up, let's write a Multiplier component.
     
     fruit::Component<Multiplier> getMultiplierComponent();
 
+<br />
+
     // multiplier.cpp
     #include "multiplier.h"
     class MultiplierImpl : public Multiplier {

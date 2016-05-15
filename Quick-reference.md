@@ -260,7 +260,8 @@ Instead of:
         static const Functor aFunctor(42);
         return fruit::createComponent()
             ... // Bind Foo
-            .registerProvider([=aFunctor](Foo* foo) { return aFunctor(foo); }); // Not allowed !!
+            // Not allowed !!
+            .registerProvider([=aFunctor](Foo* foo) { return aFunctor(foo); });
     }
 
 Write:
@@ -388,7 +389,8 @@ For example:
         return fruit::createComponent()
             .install(getU1U2Component()) // Now U1,U2 are provided, T1,T2,T3 are required
             .install(getT1Component()) // Now U1,U2,T1 are provided, T2,T3 are required
-            .bind<T2, SomeType>(); // Now U1,U2,T1,T2 are provided, T3,SomeType are required
+            .bind<T2, SomeType>(); // Now U1,U2,T1,T2 are provided, 
+                                   // T3,SomeType are required
     }
 
 ![Component composition](component_composition.png)
@@ -446,7 +448,9 @@ Normalized components are a feature of Fruit that allows to pre-compute a compon
     fruit::Component<fruit::Required<Y>, X> getXComponent(); // Lots of bindings here
     
     int main() {
-        fruit::NormalizedComponent<fruit::Required<Y>, X> normalizedComponent(getXComponent());
+        fruit::NormalizedComponent<fruit::Required<Y>, X> normalizedComponent(
+            getXComponent());
+    
         for (...) {
             fruit::Component<Y> yComponent = ...; // Few injector-specific bindings
     
@@ -504,23 +508,28 @@ As an example, let's consider a situation in which there are 3 scopes, with the 
 Then the code that creates the injectors can be written as:
 
     fruit::NormalizedComponent<X> outerScopeNormalizedComponent(getXComponent());
-    fruit::NormalizedComponent<fruit::Required<X>, Y> middleScopeNormalizedComponent(getYComponent());
-    fruit::NormalizedComponent<fruit::Required<X, Y>, Z> innerScopeNormalizedComponent(getZComponent());
+    fruit::NormalizedComponent<fruit::Required<X>, Y> middleScopeNormalizedComponent(
+        getYComponent());
+    fruit::NormalizedComponent<fruit::Required<X, Y>, Z> innerScopeNormalizedComponent(
+        getZComponent());
 
     for (...) {
         // We want to enter the outer scope here.
-        fruit::Injector<X> outerScopeInjector(outerScopeNormalizedComponent, fruit::createComponent());
+        fruit::Injector<X> outerScopeInjector(
+            outerScopeNormalizedComponent, fruit::createComponent());
         fruit::Component<X> xComponent = fruit::createComponent()
             .bindInstance(outerScopeInjector.get<X&>());
         for (...) {
             // We want to enter the middle scope here.
-            fruit::Injector<Y> middleScopeInjector(middleScopeNormalizedComponent, xComponent);
+            fruit::Injector<Y> middleScopeInjector(
+                middleScopeNormalizedComponent, xComponent);
             fruit::Component<X, Y> xyComponent = fruit::createComponent()
                 .install(xComponent)
                 .bindInstance(middleScopeInjector.get<Y&>());
                 for (...) {
                     // We want to enter the inner scope here.
-                    fruit::Injector<Z> innerScopeInjector(innerScopeNormalizedComponent, xyComponent);
+                    fruit::Injector<Z> innerScopeInjector(
+                        innerScopeNormalizedComponent, xyComponent);
                     X* x = innerScopeInjector.get<X*>();
                     Y* y = innerScopeInjector.get<Y*>();
                     Z* z = innerScopeInjector.get<Z*>();

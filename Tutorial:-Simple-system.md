@@ -155,7 +155,8 @@ Our implementation code is modular (thanks to dependency injection), so we don't
     
         virtual int add(int x, int y) override {
             if (add_overflows(x, y)) {
-                std::cerr << "CheckedAdder: detected overflow during addition of " << x << " and " << y << std::endl;
+                std::cerr << "CheckedAdder: detected overflow during addition of "
+                          << x << " and " << y << std::endl;
                 abort();
             }
             return x + y;

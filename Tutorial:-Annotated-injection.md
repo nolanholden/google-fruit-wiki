@@ -5,7 +5,8 @@ Intuitively, we'd want a component like:
     Component<????> getBrakesComponent() {
         return fruit::createComponent()
             .bind<Brake, MainBrakeImpl>()
-            .bind<Brake, EmergencyBrakeImpl>(); // Doesn't actually work, Brake is already bound
+            // Doesn't actually work, Brake is already bound
+            .bind<Brake, EmergencyBrakeImpl>();
     }
 
 And a way to inject `MainBrakeImpl` and `EmergencyBrakeImpl` instead of just `Brake`. While it's of course possible to inject the two concrete classes, doing so requires including their definitions (that would otherwise be in the `.cpp` files that define the components) into all places that need to inject one or the other.
@@ -52,7 +53,9 @@ We can then define an emergency brake class on the exact same way:
 
     // emergency_brake.h
     struct EmergencyBrake {};
-    fruit::Component<fruit::Annotated<EmergencyBrake, Brake>> getEmergencyBrakeComponent();
+    
+    fruit::Component<fruit::Annotated<EmergencyBrake, Brake>>
+        getEmergencyBrakeComponent();
 
 <div />
 
@@ -66,13 +69,16 @@ We can then define an emergency brake class on the exact same way:
         }
     };
     
-    fruit::Component<fruit::Annotated<EmergencyBrake, Brake>> getEmergencyBrakeComponent() {
+    fruit::Component<fruit::Annotated<EmergencyBrake, Brake>>
+        getEmergencyBrakeComponent() {
+        
         return fruit::createComponent()
             .bind<fruit::Annotated<EmergencyBrake, Brake>, EmergencyBrakeImpl>();
     }
 
 We can then inject the two brakes in our car class, as follows:
 
+    // car.cpp
     class CarImpl : public Car {
     private:
         Brake* mainBrake;
