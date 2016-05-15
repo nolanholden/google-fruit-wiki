@@ -294,10 +294,8 @@ Note that changes to a handler (say, `bar_handler.cpp`) only require recompilati
 
 This concludes the tutorial. Now you should be able to use Fruit effectively.
 
-For more details on each feature of Fruit, see the [Quick reference](documentation) or the [FAQ](faq). If something is still unclear, don't hesitate to [send me an email](mailto:poletti.marco@gmail.com).
+For more details on each feature of Fruit, see the [Quick reference](quick-reference) or the [FAQ](faq). If something is still unclear, don't hesitate to [send me an email](mailto:poletti.marco@gmail.com).
 
 <p align="center">
     <img src="http://i.imgur.com/ivPsCbg.jpg" />
 </p>
-
-
