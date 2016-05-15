@@ -25,7 +25,7 @@ To warm up, let's write a Multiplier component.
             .registerConstructor<MultiplierImpl()>();
     }
 
-![Multiplier](https://sites.google.com/site/fruitlib/_/rsrc/1463297953470/tutorial/assisted-injection/multiplier.png)
+![Multiplier](multiplier.png)
 
 When there is a canonical implementation of an interface, as in this case, we can put the definition of the interface and the get*Component() function declaration in the same header file, saving some boilerplate.
 
@@ -73,7 +73,7 @@ Let's write the implementation now.
             .install(getMultiplierComponent());
     }
 
-![Scaler](https://sites.google.com/site/fruitlib/_/rsrc/1463297953470/tutorial/assisted-injection/scaler.png)
+![Scaler](scaler.png)
 
 Here we see for the first time the use of the `ASSISTED()` macro. It's used to mark types in a constructor wrapped with `INJECT()` that don't have to be injected, but will become the parameters of an injected factory function.
 

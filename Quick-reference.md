@@ -21,7 +21,7 @@ The simplest way to define that a class should be injected using a constructor i
         // ...
     };
 
-![Inject macro](https://sites.google.com/site/fruitlib/_/rsrc/1424515861061/documentation/inject_macro.png)
+![Inject macro](inject_macro.png)
 
 The constructor can then be defined inside the class definition (as in the snippet above) or just declared there and defined out of the class (for example, in a .cpp file if the class definition is in a header file). If the constructor is defined elsewhere, only the prototype in the class definition should be wrapped in `INJECT()`, the constructor definition shouldn't be.
 
@@ -34,7 +34,7 @@ Note that where constructor injection is desired, even 0-argument constructors m
         // ...
     };
 
-![Inject macro](https://sites.google.com/site/fruitlib/_/rsrc/1424515861061/documentation/inject_macro.png)
+![Inject macro](inject_macro.png)
 
 The INJECT macro can only be used when the constructor has a simple signature. It can't be used with any of the following:
 
@@ -57,7 +57,7 @@ Note that the restriction on template is only when the constructor itself is tem
         // ...
     };
 
-![Inject macro template](https://sites.google.com/site/fruitlib/_/rsrc/1424515865392/documentation/inject_macro_template.png)
+![Inject macro template](inject_macro_template.png)
 
 The `INJECT()` macro can also be used when only some of the constructor parameters should be injected, see [assisted injection](quick-reference#factories-and-assisted-injection).
 
@@ -81,7 +81,7 @@ When the `INJECT()` macro can't be used (or as an alternative to avoid using mac
         // ...
     };
 
-![Inject typedef for Greeter](https://sites.google.com/site/fruitlib/_/rsrc/1424515867444/documentation/inject_typedef_greeter.png)
+![Inject typedef for Greeter](inject_typedef_greeter.png)
 
     class StdoutWriter : public Writer {
     public:
@@ -94,7 +94,7 @@ When the `INJECT()` macro can't be used (or as an alternative to avoid using mac
         // ...
     };
 
-![Inject macro with no args](https://sites.google.com/site/fruitlib/_/rsrc/1424515863290/documentation/inject_macro_no_args.png)
+![Inject macro with no args](inject_macro_no_args.png)
 
 And these are two examples that couldn't be written using the `INJECT()` macro:
 
@@ -109,7 +109,7 @@ And these are two examples that couldn't be written using the `INJECT()` macro:
         // ...
     };
 
-![Inject typedef writer](https://sites.google.com/site/fruitlib/_/rsrc/1424515872579/documentation/inject_typedef_writer.png)
+![Inject typedef writer](inject_typedef_writer.png)
 
     class GreeterImpl : public Greeter {
     private:
@@ -133,7 +133,7 @@ And these are two examples that couldn't be written using the `INJECT()` macro:
         // ...
     };
 
-![Inject typedef greeter](https://sites.google.com/site/fruitlib/_/rsrc/1424515867444/documentation/inject_typedef_greeter.png)
+![Inject typedef greeter](inject_typedef_greeter.png)
 
 In the last example the first templated constructor will be used, with `W`=`Writer`. The usual overloading resolution (with template parameter deduction) is performed to determine the constructor to use for injection.
 
@@ -167,11 +167,11 @@ The solution here is the `registerConstructor()` method available when construct
     }
 
 
-![Register constructor component](https://sites.google.com/site/fruitlib/_/rsrc/1424515889257/documentation/register_constructor_component.png)
+![Register constructor component](register_constructor_component.png)
 
 The `registerConstructor()` alone can be modelled as:
 
-![Register constructor](https://sites.google.com/site/fruitlib/_/rsrc/1424515886753/documentation/register_constructor.png)
+![Register constructor](register_constructor.png)
 
 If only some of the constructor parameters should be injected, see [the section on assisted injection](quick-reference#factories-and-assisted-injection).
 
@@ -182,7 +182,7 @@ If none of the constructors does the desired initializations, see the [section o
 `bind<Interface, Impl>()` specifies that `Interface` can be injected from an object of type `Impl`. `Impl` must be a class derived from `Interface`.
 It can also bind factories, i.e. bind `std::function<std::unique_ptr<Interface>(T1,...,Tn)>` to `std::function<std::unique_ptr<Impl>(T1,...,Tn)>`, for any parameter types `T1,...,Tn`. See the section on [factories and assisted injection](quick-reference#factories-and-assisted-injection) to see how to bind `std::function<std::unique_ptr<Impl>(T1,...,Tn)>` in the first place.
 
-![Bind](https://sites.google.com/site/fruitlib/_/rsrc/1424515851923/documentation/bind.png)
+![Bind](bind.png)
 
 ## Multibindings
 
@@ -237,7 +237,7 @@ The simplest way to register a class for injection is using constructor injectio
             });
     }
 
-![Provider](https://sites.google.com/site/fruitlib/_/rsrc/1424515881610/documentation/provider.png)
+![Provider](provider.png)
 
 If the lambda returns a pointer, as in the example above, Fruit will **take ownership** of that pointer and will call `delete` on that object when the injector is destroyed. If you don't want Fruit to take ownership, wrap the pointer in a holder struct or tuple (but note that you'll need to change the places where that type is used) or consider binding an instance.
 
@@ -273,7 +273,7 @@ Write:
             .registerProvider([](Functor functor, Foo* foo) { return functor(foo); });
     }
 
-![Provider functor](https://sites.google.com/site/fruitlib/_/rsrc/1424515883668/documentation/provider_functor.png)
+![Provider functor](provider_functor.png)
 
 ## Binding instances
 
@@ -291,7 +291,7 @@ Binding instances is also a way to bind values that are constant during the life
             .bindInstance(getFooInstance());
     }
 
-![Bind instance](https://sites.google.com/site/fruitlib/_/rsrc/1424515853845/documentation/bind_instance.png)
+![Bind instance](bind_instance.png)
 
 ## Factories and assisted injection
 
@@ -314,7 +314,7 @@ Example factory binding:
                });
     }
 
-![Register factory](https://sites.google.com/site/fruitlib/_/rsrc/1424515891242/documentation/register_factory.png)
+![Register factory](register_factory.png)
 
 Example use of the binding from the injector:
 
@@ -331,7 +331,7 @@ Example use of the binding to inject another class:
         }
     };
 
-![Use of registerFactory](https://sites.google.com/site/fruitlib/_/rsrc/1424515896475/documentation/register_factory_use.png)
+![Use of registerFactory](register_factory_use.png)
 
 Note the `fruit::Assisted<>` wrapping the type `int` where `registerFactory()` is called. This allows to distinguish types that should be parameters of the factory ("assisted injection", like `int` in this example) from ones that should be injected by Fruit (normal, non-assisted injection, like `Foo` in this example).
 
@@ -351,7 +351,7 @@ In simple cases, where the lambda passed to `registerFactory()` just calls `std:
         ...
     };
 
-![Register factory macro](https://sites.google.com/site/fruitlib/_/rsrc/1424515893627/documentation/register_factory_macro.png)
+![Register factory macro](register_factory_macro.png)
 
 Note that when using `INJECT()` for assisted injection, the assisted types are wrapped with the `ASSISTED()` macro instead of `fruit::Assisted<>`.
 
@@ -391,7 +391,7 @@ For example:
             .bind<T2, SomeType>(); // Now U1,U2,T1,T2 are provided, T3,SomeType are required
     }
 
-![Component composition](https://sites.google.com/site/fruitlib/_/rsrc/1424515856315/documentation/component_composition.png)
+![Component composition](component_composition.png)
 
 When Fruit compares the provides/requires with the return type of the `getT1Component()` function, it realizes that all types declared to be provided are already provided, but the type `SomeType` is currently required even though it's not declared as required in the resulting Component. At this point Fruit looks for an `Inject` typedef in SomeType (the `INJECT()` macro is just a shorthand for an `Inject` typedef), finds it and adds the binding to the component (automatic binding). Note that in order to add the automatic binding Fruit needs to look at the class definition of `SomeType`. Instead, for other types (e.g. `T3`) Fruit doesn't require the definition, a forward declaration is enough to make the above function compile.
 
@@ -406,7 +406,7 @@ When calculating the required and provided types, Fruit also ensures that there 
             .install(getT2Component()); // Error, dependency loop.
     }
 
-![Dependency loop error](https://sites.google.com/site/fruitlib/_/rsrc/1424515858413/documentation/component_dep_loop.png)
+![Dependency loop error](component_dep_loop.png)
 
 ## Injector
 
@@ -590,7 +590,7 @@ The `get*Component()` functions are just normal functions; therefore they can be
             .bind<FooInterface<T, std::vector<T>>, FooImpl<T>>();
     }
 
-![Templated component](https://sites.google.com/site/fruitlib/_/rsrc/1424515879336/documentation/templated_component.png)
+![Templated component](templated_component.png)
 
 And they can parametrized:
 
@@ -618,6 +618,6 @@ And they can parametrized:
         }
     }
 
-![Parameterized component](https://sites.google.com/site/fruitlib/_/rsrc/1424515876841/documentation/parametrized_component.png)
+![Parameterized component](parametrized_component.png)
 
 The last example also shows how to do conditional injection.

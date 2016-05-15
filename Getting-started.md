@@ -56,7 +56,7 @@ Let's look at a simple example: a Hello world implementation written using Fruit
 
 The structure of the above program can be modelled with the following component diagram.
 
-![Greeter](https://sites.google.com/site/fruitlib/_/rsrc/1424518212968/tutorial/getting-started/greeter.png)
+![Greeter](greeter.png)
 
 The StdoutWriter class requires nothing and provides a StdoutWriter instance. The binding between StdoutWriter and Writer requires a StdoutWriter instance and provides a Writer instance. The GreeterImpl class requires a Writer instance and provides a GreeterImpl instance. The binding between GreeterImpl and Greeter requires a GreeterImpl instance and provides a Greeter instance. Finally, GreeterComponent requires nothing and provides a Greeter instance.
 
@@ -64,6 +64,6 @@ When using Fruit, composite components are typically defined in a `get*Component
 
 It's usually useful to hide information on concrete classes, so when a class is bound to an interface the implementation class is usually not provided. For simplicity, in the rest of the tutorial we'll model the component of the implementation class together with all the relevant bindings as a single component. The above diagram will then become:
 
-![Simple greeter](https://sites.google.com/site/fruitlib/_/rsrc/1424518215413/tutorial/getting-started/simple_greeter.png)
+![Simple greeter](simple_greeter.png)
 
 In the [next part of the tutorial](simple-system) we'll see a simple system built using Fruit.
