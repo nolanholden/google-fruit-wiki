@@ -34,7 +34,7 @@ Now let's write two request handlers: one for URLs starting with `/foo/`:
     fruit::Component<fruit::Required<Request, ServerContext>, FooHandler>
         getFooHandlerComponent();
 
-<br />
+<div />
 
     // foo_handler.cpp
     #include "foo_handler.h"
@@ -80,7 +80,7 @@ And, as you might have expected, one for URLs starting with `/bar/`:
     fruit::Component<fruit::Required<Request, ServerContext>, BarHandler>
         getBarHandlerComponent();
 
-<br />
+<div />
 
     // bar_handler.cpp
     #include "bar_handler.h"
@@ -128,7 +128,7 @@ Now we need a class that dispatches the requests to the right handler:
     fruit::Component<fruit::Required<Request, ServerContext>, RequestDispatcher>
         getRequestDispatcherComponent();
 
-<br />
+<div />
   
     // request_dispatcher.cpp
     #include "request_dispatcher.h"
