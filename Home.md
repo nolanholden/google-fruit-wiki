@@ -15,7 +15,7 @@ The code is on github at [github.com/google/fruit](https://github.com/google/fru
     *   Inject annotations for constructors, [details here](quick-reference#inject-macro)
     *   Binding to a provider (lambda), [details here](quick-reference#providers)
     *   Binding to an instance/value, [details here](quick-reference#binding-instances)
-    *   Annotated bindings
+    *   Annotated bindings, [details here](quick-reference#annotated-injection)
     *   Assisted injection, [details here](quick-reference#factories-and-assisted-injection)
     *   Automatic registration of factories for a type I if there is a factory for C and I is bound to C, [details here](quick-reference#bindings)
 *   Unlike most DI frameworks, most checks are done at **compile time**, so that errors can be caught early. Some examples of checks done at compile time:
