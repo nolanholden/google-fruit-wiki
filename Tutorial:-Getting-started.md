@@ -66,4 +66,4 @@ It's usually useful to hide information on concrete classes, so when a class is 
 
 ![Simple greeter](simple_greeter.png)
 
-In the [next part of the tutorial](tutorial:-simple-system) we'll see a simple system built using Fruit.
+In the [next part of the tutorial](https://github.com/google/fruit/wiki/tutorial:-simple-system) we'll see a simple system built using Fruit.

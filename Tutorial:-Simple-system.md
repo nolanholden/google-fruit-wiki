@@ -244,4 +244,4 @@ Let's now rewrite the `main()` to accept the new argument, and to use the new pa
 
 Here we see an alternative syntax for obtaining a class instance from an injector. Instead of calling `get` on the injector, we convert the injector to the type that we want. This is convenient to avoid repeating the type twice (compare with the main function above).
 
-In the [next part of the tutorial](tutorial:-annotated-injection) we'll learn how to use annotated injection.
+In the [next part of the tutorial](https://github.com/google/fruit/wiki/tutorial:-annotated-injection) we'll learn how to use annotated injection.

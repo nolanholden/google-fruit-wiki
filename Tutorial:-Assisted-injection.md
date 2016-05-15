@@ -100,4 +100,4 @@ Here is the `main()` function, which should be easy to understand at this point.
 
 Now you know the basics of how to use Fruit. To get more familiar with it, try rewriting the above system by yourself or any other program that you like, and experiment a bit changing the code.
 
-In the [next part of the tutorial](tutorial:-server) we'll see how to use Fruit to write a server.
+In the [next part of the tutorial](https://github.com/google/fruit/wiki/tutorial:-server) we'll see how to use Fruit to write a server.
