@@ -12,13 +12,13 @@ The code is on github at [github.com/google/fruit](https://github.com/google/fru
 ## Features
 
 *   Basic features:
-    *   Binding of a type to an interface, [[details here|documentation#bindings]]
-    *   Inject annotations for constructors, [[details here|documentation#inject-macro]]
-    *   Binding to a provider (lambda), [[details here|documentation#providers]]
-    *   Binding to an instance/value, [[details here|documentation#binding-instances]]
+    *   Binding of a type to an interface, [details here](documentation#bindings)
+    *   Inject annotations for constructors, [details here](documentation#inject-macro)
+    *   Binding to a provider (lambda), [details here](documentation#providers)
+    *   Binding to an instance/value, [details here](documentation#binding-instances)
     *   Annotated bindings
-    *   Assisted injection, [[details here|documentation#factories-and-assisted-injection]]
-    *   Automatic registration of factories for a type I if there is a factory for C and I is bound to C, [[details here|documentation#bindings]]
+    *   Assisted injection, [details here](documentation#factories-and-assisted-injection)
+    *   Automatic registration of factories for a type I if there is a factory for C and I is bound to C, [details here](documentation#bindings)
 *   Unlike most DI frameworks, most checks are done at **compile time**, so that errors can be caught early. Some examples of checks done at compile time:
     *   Checking that all required types are bound (implicitly or explicitly)
     *   Checking that there are no dependency loops in the bound types.
@@ -34,9 +34,9 @@ The code is on github at [github.com/google/fruit](https://github.com/google/fru
 *   Optional eager injection: after calling a specific method on the injector, multiple threads can use the same injector concurrently with no locking.
 *   Multi-bindings: unlike the typical binding when in an injector there's a single binding for each type, multi-bindings allow components to specify several bindings and the collection of bound instances can be retrieved from the injector. This can be useful for e.g. plugin loading/hooks, or to register request handlers in a server.
 
-Eager to get started? Jump to the [[Getting started page|tutorial-getting-started]
+Eager to get started? Jump to the [Getting started page](tutorial-getting-started)
 
-Look at the [examples/](https://github.com/google/fruit/tree/master/examples) directory in the source tree for example code, or see the [[FAQ page|faq]] for more information.
+Look at the [examples/](https://github.com/google/fruit/tree/master/examples) directory in the source tree for example code, or see the [FAQ page](faq) for more information.
 
 #### Rejected features
 
