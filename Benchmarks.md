@@ -20,7 +20,7 @@ Below we have separate tables for:
 
 We also have a third table for the corresponding time when managing dependencies explicitly without Fruit, using new/delete on a class C derived from a class I, both with a virtual destructor (as for the classes used in the benchmarks using Fruit). Compare this table with the table for the per-request time. In the second table, the difference with the corresponding cell of the third table is also shown.
 
-| Compiler \ Startup time | 100 classes      | 1000 classes     |
+| Startup time | 100 classes      | 1000 classes     |
 |-------------------------|------------------|------------------|
 | GCC 4.8.5   | 340 us (0.34 ms) | 4100 us (4.1 ms) |
 | GCC 5.3.1   | 340 us (0.34 ms) | 4100 us (4.1 ms) |
@@ -28,13 +28,13 @@ We also have a third table for the corresponding time when managing dependencies
 
 The above table of startup time is shown for completeness, but even the ~6 ms of startup overhead when using 1000 classes are easily dwarfed by other initializations (or even just the loader).
 
-| Compiler \ Per-request time | 100 classes      | 1000 classes     |
+| Per-request time  | 100 classes      | 1000 classes     |
 |-----------------------------|------------------|------------------|
 | GCC 4.8.5   | 2.7 us (+1 us)   | 100 us (+53 us)  |
 | GCC 5.3.1   | 2.6 us (+0 us)   | 100 us (+66 us)  |
 | Clang 3.7.0 | 3.6 us (+1.2 us) | 150 us (+103 us) |
 
-| Compiler \ new/delete time | 100 classes | 1000 classes |
+| new/delete time | 100 classes | 1000 classes |
 |-------------|--------|-------|
 | GCC 4.8.5   | 1.7 us | 47 us |
 | GCC 5.3.1   | 2.6 us | 34 us |
@@ -58,7 +58,7 @@ Since Fruit does most injection checks at compile-time using template metaprogra
 
 It's hard to measure exactly how much time is spent "inside Fruit during compile time". To achieve an approximation (overestimating) we have created a component with N bindings (for N=20,80,320) with an equal mix of `bind()`, `bindInstance()`, `install()`, auto-registered constructors and `registerProvider()`. Then we timed the compilation with various compilers (to be precise: the full compilation, not just type-checking, but without linking).
 
-| Compiler \ Compile time    |  20 bindings | 80 bindings | 320 bindings |
+| Compile time |  20 bindings | 80 bindings | 320 bindings |
 |-------------|--------------|-------------|--------------|
 | GCC 4.8.5   | 0.72 s       | 1.6 s       | 44 s         |
 | GCC 5.3.1   | 0.83 s       | 1.9 s       | 46 s         |
