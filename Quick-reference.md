@@ -392,7 +392,7 @@ Another thing to note when using annotated injection is that if you bind an impl
             .bind<fruit::Annotated<Second, Foo>, FooImpl>(); // Allowed, but misleading!
     }
 
-That's because there is only one instance of every type in an injector (unless that type is annotated with multiple annotations, but `FruitImpl` isn't). This is probably not what you want. In this case, you should also annotate the two implementation classes, so that the injector will contain a different instance for each annotation:
+That's because there is only one instance of every type in an injector (unless that type is annotated with multiple annotations, but `FooImpl` isn't). This is probably not what you want. In this case, you should also annotate the two implementation classes, so that the injector will contain a different instance for each annotation:
 
     class FooImpl : public Foo {
     public:
@@ -409,7 +409,7 @@ That's because there is only one instance of every type in an injector (unless t
             .bind<fruit::Annotated<Second, Foo>, fruit::Annotated<Second, FooImpl>>();
     }
 
-Note that we did not change the definition of `FooImpl`, we only need to specify the annotation in the `bind()` calls. Fruit will then auto-inject `fruit::Annotated<First, FooImpl>` and `fruit::Annotated<Second, FooImpl>`, both using `FruitImpl`'s constructor.
+Note that we did not change the definition of `FooImpl`, we only need to specify the annotation in the `bind()` calls. Fruit will then auto-inject `fruit::Annotated<First, FooImpl>` and `fruit::Annotated<Second, FooImpl>`, both using `FooImpl`'s constructor.
 
 ## Factories and assisted injection
 
