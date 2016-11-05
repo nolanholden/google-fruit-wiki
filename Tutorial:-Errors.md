@@ -27,7 +27,7 @@ Here we expect an error, because `X` is not explicitly bound and can't be automa
     /usr/include/fruit/impl/component.defn.h: In instantiation of ‘fruit::Component<Types>::Component(fruit::PartialComponent<Bindings ...>) [with Bindings = {}; Params = {X}]’:
     main.cpp:8:33:   required from here
     /usr/include/fruit/impl/component.defn.h:61:3: error: no type named ‘Result’ in ‘fruit::impl::meta::OpForComponent<>::ConvertTo<fruit::impl::meta::Comp<fruit::impl::meta::Vector<>, fruit::impl::meta::Vector<fruit::impl::meta::Type<X> >, fruit::impl::meta::Vector<fruit::impl::meta::Pair<fruit::impl::meta::Type<X>, fruit::impl::meta::Vector<> > >, fruit::impl::meta::Vector<>, fruit::impl::meta::EmptyList> > {aka struct fruit::impl::meta::Error<fruit::impl::NoBindingFoundErrorTag, X>}’
-   (void)typename fruit::impl::meta::CheckIfError<fruit::impl::meta::Eval<fruit::impl::meta::CheckNoLoopInDeps(typename Op::Result)>>::type();
+    (void)typename fruit::impl::meta::CheckIfError<fruit::impl::meta::Eval<fruit::impl::meta::CheckNoLoopInDeps(typename Op::Result)>>::type();
        ^
     In file included from /usr/include/fruit/component.h:498:0,
                      from /usr/include/fruit/fruit.h:28,
