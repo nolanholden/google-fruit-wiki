@@ -49,7 +49,7 @@ To install (under Linux uses `/usr/local`):
 
 To configure for installation in a specific directory, e.g. `/usr`:
 
-    cmake -DCMAKE_INSTALL_PREFIX=/usr . && make -j
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr . && make -j
 
 The above instructions are the simplest to get started, but out-of-source builds are also supported.
 
