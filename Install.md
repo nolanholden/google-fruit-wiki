@@ -41,7 +41,7 @@ First, get the code from Github: [https://github.com/google/fruit/releases](http
 
 To configure and build:
 
-    cmake . && make -j
+    cmake -DCMAKE_BUILD_TYPE=Release . && make -j
 
 To install (under Linux uses `/usr/local`):
 
