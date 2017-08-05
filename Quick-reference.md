@@ -1,6 +1,24 @@
 
 This page is a quick reference for Fruit features, and intended for people that already know the basics of Fruit. If you're just starting to learn Fruit, read the [tutorial](https://github.com/google/fruit/wiki/tutorial:-getting-started) first.
 
+#### Table of contents
+
+* [Constructor injection](#constructor-injection)
+* [Bindings](#bindings)
+* [Multibindings](#multibindings)
+* [Providers](#providers)
+* [Binding instances](#binding-instances)
+* [Annotated injection](#annotated-injection)
+* [Factories and assisted injection](#factories-and-assisted-injection)
+* [Type of a component, components with requirements and automatic bindings](#type-of-a-component-components-with-requirements-and-automatic-bindings)
+* [Injector](#injector)
+* [Normalized components](#normalized-components)
+* [Injection scopes](#injection-scopes)
+* [Eager injection](#eager-injection)
+* [Lazy injection](#lazy-injection)
+* [Templated and parametrized components](#templated-and-parametrized-components)
+
+
 ## Constructor injection
 
 #### INJECT macro
