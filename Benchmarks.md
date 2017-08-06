@@ -74,10 +74,10 @@ table of the "Per-injector time" (if you're using `NormalizedComponent`).
 Note that in the 100 classes case, Fruit manages to be faster than raw new/delete when using `NormalizedComponent`. This
 is thanks to Fruit's custom allocation strategy.
 
-The above per-request results are impressively low considering that Fruit has to traverse the graph of dependencies
+The above per-injector results are impressively low considering that Fruit has to traverse the graph of dependencies
 while new/delete "just" have to find some empty spots in memory.
 
-Side note: the super-linear increase observed in the per-request time for both new/delete and Fruit injection is due to
+Side note: the super-linear increase observed in both new/delete and the Fruit the per-injector time is due to
 CPU caches. Profiling the benchmark has shown a ~5% L1 instruction miss rate, due to the 1K constructors being called at
 each request, that don't all fit in the L1 cache. Each edge of the dependency graph adds an O(1) cost.
 
