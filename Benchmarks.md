@@ -97,3 +97,13 @@ run in parallel so the number of cores of the CPU in use (6 physical, 12 virtual
 
 Note that this is the full compile time, not just the overhead of using Fruit; compiling and linking 1000 classes
 that do not use Fruit takes a non-trivial amount of time too.
+
+### Executable size
+
+This table contains measurements of the (stripped) executable size for the 100 and 1000 classes example codebases
+described above. If executable size is a concern, it can be reduced further by disabling RTTI.
+
+| Executable size (stripped) | 100 classes | 1000 classes |
+|----------------------------|-------------|--------------|
+|                Clang 4.0.0 |    0.381 MB |      3.62 MB |
+|                  GCC 7.0.1 |    0.401 MB |      3.91 MB |
