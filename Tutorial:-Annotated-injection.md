@@ -1,17 +1,24 @@
-In some situations several implementation types might have the same "natural interface" they implement, except that only one of these types can be bound to it within a single injector. For example, a car might have a main brake and an emergency brake, which both implement the same `Brake` interface.
+
+In some situations several implementation types might have the same "natural interface" they implement, except that only
+one of these types can be bound to it within a single injector. For example, a car might have a main brake and an
+emergency brake, which both implement the same `Brake` interface.
 
 Intuitively, we'd want a component like:
 
-    Component<????> getBrakesComponent() {
+    Component<???> getBrakesComponent() {
         return fruit::createComponent()
             .bind<Brake, MainBrakeImpl>()
-            // Doesn't actually work, Brake is already bound
+            // This doesn't actually work, Brake is already bound
             .bind<Brake, EmergencyBrakeImpl>();
     }
 
-And a way to inject `MainBrakeImpl` and `EmergencyBrakeImpl` instead of just `Brake`. While it's of course possible to inject the two concrete classes, doing so requires including their definitions (that would otherwise be in the `.cpp` files that define the components) into all places that need to inject one or the other.
+And a way to inject `MainBrakeImpl` and `EmergencyBrakeImpl` instead of just `Brake`. While it's of course possible to
+inject the two concrete classes, doing so requires including their definitions (that would otherwise be in the `.cpp`
+files that define the components) into all places that need to inject one or the other.
 
-Assisted injection is a feature of Fruit that helps with these situations (if you're familiar with Guice, this should sound familiar). Let's see how we can use it to solve this example. The full sources are available at [examples/annotated_injection](https://github.com/google/fruit/tree/master/examples/annotated_injection).
+Assisted injection is a feature of Fruit that helps with these situations (if you're familiar with Guice, this should
+sound familiar). Let's see how we can use it to solve this example. The full sources are available at
+[examples/annotated_injection](https://github.com/google/fruit/tree/master/examples/annotated_injection).
 
 Let's start with the `Brake` interface, which is straightforward (no sign of annotated injection yet):
 
@@ -22,10 +29,11 @@ Let's start with the `Brake` interface, which is straightforward (no sign of ann
         virtual void activate() = 0;
     };
 
-Then we can implement an implementation of `Brake` marked as the main brake as follows:
+Then we can write an implementation of `Brake` marked as the main brake as follows:
 
     // main_brake.h
     struct MainBrake {};
+    
     fruit::Component<fruit::Annotated<MainBrake, Brake>> getMainBrakeComponent();
 
 <div/>
@@ -45,9 +53,14 @@ Then we can implement an implementation of `Brake` marked as the main brake as f
             .bind<fruit::Annotated<MainBrake, Brake>, MainBrakeImpl>();
     }
 
-`fruit::Annotated<MainBrake, Brake>` is a way to mark the type `Brake` with the "annotation" `MainBrake`. The annotation type can be any type, but to avoid confusion it's preferable to define a type just for this purpose, for example as an empty struct as we do here.
+`fruit::Annotated<MainBrake, Brake>` is a way to mark the type `Brake` with the "annotation" `MainBrake`. The annotation
+type can be any type, but to avoid confusion it's preferable to define a type just for this purpose, for example as an
+empty struct as we do here.
 
-Fruit accepts annotated types in many places. For example here we see it passed as a parameter to `Component` and `bind()`. Note that it's not necessary to annotate `MainBrakeImpl` too: there's only one binding of that type in the injector, and when binding types with `bind()` the two types don't need to have the same annotation. It would be possible though (it's just unnecessary in this case).
+Fruit accepts annotated types in many places. For example here we see it passed as a parameter to `Component` and
+`bind()`. Note that it's not necessary to annotate `MainBrakeImpl` too: there's only one binding of that type in the
+injector, and when binding types with `bind()` the two types don't need to have the same annotation. It would be
+possible though (it's just unnecessary in this case).
 
 We can then define an emergency brake class on the exact same way:
 
@@ -76,7 +89,7 @@ We can then define an emergency brake class on the exact same way:
             .bind<fruit::Annotated<EmergencyBrake, Brake>, EmergencyBrakeImpl>();
     }
 
-We can then inject the two brakes in our car class, as follows:
+We can then inject the two brakes in our `Car` class, as follows:
 
     // car.cpp
     class CarImpl : public Car {
@@ -90,11 +103,11 @@ We can then inject the two brakes in our car class, as follows:
             : mainBrake(mainBrake), emergencyBrake(emergencyBrake) {
         }
         // Or:
-        using Inject = CarImpl(fruit::Annotated<MainBrake, Brake*>,
-                               fruit::Annotated<EmergencyBrake, Brake*>);
-        CarImpl(Brake* mainBrake, Brake* emergencyBrake)
-            : mainBrake(mainBrake), emergencyBrake(emergencyBrake) {
-        }
+        // using Inject = CarImpl(fruit::Annotated<MainBrake, Brake*>,
+        //                        fruit::Annotated<EmergencyBrake, Brake*>);
+        // CarImpl(Brake* mainBrake, Brake* emergencyBrake)
+        //     : mainBrake(mainBrake), emergencyBrake(emergencyBrake) {
+        // }
       
         void brake() override {
             try {
@@ -109,13 +122,16 @@ We can then inject the two brakes in our car class, as follows:
     fruit::Component<Car> getCarComponent() {
         return fruit::createComponent()
             .bind<Car, CarImpl>()
-            .install(getMainBrakeComponent())
-            .install(getEmergencyBrakeComponent());
+            .install(getMainBrakeComponent)
+            .install(getEmergencyBrakeComponent);
     }
 
-Note the use of the `ANNOTATED` macro inside `INJECT`, and the equivalent `Inject` typedef, and the fact that the two parameters of the constructor are of type `Brake*` (i.e., `ANNOTATED` only adds the annotation to the parameter type in the `Inject` typedef, but not to the constructor parameter).
+Note the use of the `ANNOTATED` macro inside `INJECT`, the equivalent `Inject` typedef, and the fact that the two
+parameters of the constructor are of type `Brake*` (i.e., `ANNOTATED` only adds the annotation to the parameter type in
+the `Inject` typedef, but not to the constructor parameter).
 
-In this case both parameters were marked with `ANNOTATED`, but it's of course possible to mix annotated parameters with non-annotated ones in the same class.
+In this case both parameters were marked with `ANNOTATED`, but it's of course possible to mix annotated parameters with
+non-annotated ones in the same class.
 
 This diagram models the Car component above:
 
@@ -123,4 +139,5 @@ This diagram models the Car component above:
     <img src="car_component.png" />
 </p>
 
-In the [next part of the tutorial](https://github.com/google/fruit/wiki/tutorial:-errors) we'll see how Fruit reports injection errors.
+In the [next part of the tutorial](https://github.com/google/fruit/wiki/tutorial:-errors) we'll see how Fruit reports
+injection errors.
