@@ -29,8 +29,8 @@ destroying all injected objects).
 
 | Full injection time | 100 classes | 1000 classes              |
 |---------------------|-------------|---------------------------|
-|         Clang 4.0.0 |    81-84 us | 2000-2100 us (2.0-2.1 ms) |
-|           GCC 7.0.1 |    69-71 us |          1800 us (1.8 ms) |
+|         Clang 4.0.0 |    81-84 μs | 2000-2100 μs (2.0-2.1 ms) |
+|           GCC 7.0.1 |    69-71 μs |          1800 μs (1.8 ms) |
 
 #### Injection time when using NormalizedComponent
 
@@ -42,8 +42,8 @@ calling the various `get*Component` functions).
 
 | Fruit normalization time | 100 classes | 1000 classes     |
 |--------------------------|-------------|------------------|
-|              Clang 4.0.0 |    80-82 us | 2000 us (2 ms)   |
-|                GCC 7.0.1 |    62-65 us | 1800 us (1.8 ms) |
+|              Clang 4.0.0 |    80-82 μs | 2000 μs (2 ms)   |
+|                GCC 7.0.1 |    62-65 μs | 1800 μs (1.8 ms) |
 
 And this is the time required to create an `Injector` from the `NormalizedComponent`, to inject the root class of the
 dependency graph (which involves injecting all the other ones too, as dependencies) and finally the time to destroy the
@@ -51,8 +51,8 @@ injector (which involves destroying all injected objects).
 
 | Per-injector time | 100 classes | 1000 classes |
 |-------------------|-------------|--------------|
-|       Clang 4.0.0 |  2.1-2.4 us |     94-95 us |
-|         GCC 7.0.1 |    2-2.1 us |        96 us |
+|       Clang 4.0.0 |  2.1-2.4 μs |     94-95 μs |
+|         GCC 7.0.1 |    2-2.1 μs |        96 μs |
 
 Here we assume that all classes need to be injected. However, in a real example we would use Fruit `Provider`s to only
 inject the classes that are actually needed, so the time will be much lower. You can see an example of how to do that in
@@ -68,8 +68,8 @@ table of the "Per-injector time" (if you're using `NormalizedComponent`).
 
 | New/delete time | 100 classes | 1000 classes |
 |-----------------|-------------|--------------|
-|     Clang 4.0.0 |      2.6 us |        45 us |
-|       GCC 7.0.1 |  2.7-2.8 us |        37 us |
+|     Clang 4.0.0 |      2.6 μs |        45 μs |
+|       GCC 7.0.1 |  2.7-2.8 μs |        37 μs |
 
 Note that in the 100 classes case, Fruit manages to be faster than raw new/delete when using `NormalizedComponent`. This
 is thanks to Fruit's custom allocation strategy.
